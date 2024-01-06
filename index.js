@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const app = require('express')();
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { GatewayIntentBits, Partials } = discord;
 
@@ -8,6 +9,10 @@ const client = new discord.Client({
   intents: [GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds],
   partials: [Partials.Channel, Partials.Message],
 });
+
+app.get('/', (req, res) => {
+  res.send('Hello world!');
+})
 
 client.on('ready', () => {
   client.user.setActivity('League of Legends', { type: 0 });
@@ -95,4 +100,5 @@ client.on('messageCreate', async (message) => {
   }
 })
 
+app.listen(process.env.PORT || 3000, () => console.log('Listening!'))
 client.login(process.env.TOKEN);
